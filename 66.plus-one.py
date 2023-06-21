@@ -7,6 +7,7 @@
 
 # @lc code=start
 class Solution:
+    # 优点在于没有新添加变量来保存数组,空间复杂度为O(1)
     def plusOne(self, digits: List[int]) -> List[int]:
         digits = [0] + digits
         # 1. add a [0] in the front
