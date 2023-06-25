@@ -1,16 +1,21 @@
-l1 = [1, 3, 1]
+l1 = [0]
 
 
 def hIndex(citations) -> int:
-    dic1 = {}
-    for i in range(len(citations) + 1):
-        count = 0
-        for k in citations:
-            if k >= i:
-                count += 1
-        if count >= i:
-            dic1[i] = count
-    return max(dic1.keys())
+    maxArt = len(citations)
+    total = 0
+    counter = [0] * (maxArt + 1)
+    for i in citations:
+        if i >= maxArt:
+            counter[maxArt] += 1
+        else:
+            counter[i] += 1
+    for i in range(7, -1, -1):
+        print(i)
+        # total += counter[i]
+        # print(total)
+        # if total >= i:
+        #     return i
 
 
 print(hIndex(l1))
