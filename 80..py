@@ -17,3 +17,4 @@ def removeDuplicates(nums) -> int:
 
 removeDuplicates(nums)
 print(nums)
+print(10**4 + 1)
