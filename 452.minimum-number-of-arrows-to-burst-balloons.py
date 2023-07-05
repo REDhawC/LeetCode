@@ -8,19 +8,20 @@
 # @lc code=start
 class Solution:
     def findMinArrowShots(self, points: list[list[int]]) -> int:
-        sort_Func = lambda x: x[0]
-        points.sort(key=sort_Func)
-        arrows = 0
-        index = 0
-        while index < len(points) - 1:
-            if points[index + 1][0] <= points[index][1]:
-                temp = points[index]
-                while index < len(points) - 1 and points[index + 1][0] <= temp[1]:
-                    index += 1
+        points.sort(key=lambda x: x[0])
+        arrows = 1
+        # at least 1 arrow!
+        temp = points[0]
+        # set current balloon as temp for further compare
+        for i in range(1, len(points)):
+            if points[i][0] > temp[1]:
+                # exceed range,add one arrow.
                 arrows += 1
+                temp = points[i]
             else:
-                arrows += 1
-                index += 1
+                # within range, save one arrow and narrow down the range.
+                temp[0] = max(temp[0], points[i][0])
+                temp[1] = min(temp[1], points[i][1])
         return arrows
 
 
