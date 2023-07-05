@@ -9,6 +9,7 @@
 class Solution:
     def calculate(self, s: str) -> int:
         def simpleCalculate(exp):
+            exp = exp.split(" ")[1:]
             numStack = []
             operators = []
             for i in exp:
@@ -40,16 +41,16 @@ class Solution:
             else:
                 curVal = stack.pop()
                 while curVal != "(":
-                    exp = curVal + exp
+                    exp = f" {curVal}{exp}"
                     curVal = stack.pop()
                 stack.append(simpleCalculate(exp))
                 exp = ""
         return int(stack[0])
 
 
-s = "(1+(4+5+2)-3)+(6+8)"
+# s = "(1+(4+5+2)-3)+(6+8)"
 
-Solution.calculate(Solution, s)
+# Solution.calculate(Solution, s)
 
 
 # @lc code=end
