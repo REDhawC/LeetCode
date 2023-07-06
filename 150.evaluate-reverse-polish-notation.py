@@ -27,7 +27,7 @@ class Solution:
         return int(stack[0])
 
 
-# s = ["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]
-# Solution.evalRPN(Solution, s)
+s = ["10", "6", "9", "3", "+", "-11", "*", "/", "*", "17", "+", "5", "+"]
+Solution.evalRPN(Solution, s)
 
 # @lc code=end
