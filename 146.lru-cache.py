@@ -25,7 +25,7 @@ class DoubleList:
         self.size = 0  # 链表大小
 
     def addFirst(self, x):
-        """在最前面加个节点x,注意语句顺序, 很经典！"""
+        """插入在 head 和 tail 之间, 总共需要梳理4个箭头!"""
         x.next = self.head.next  # x的next指针指向头节点的下一个节点
         x.prev = self.head  # x的prev指针指向头节点
         self.head.next.prev = x  # 头节点的下一个节点的prev指针指向x
@@ -56,7 +56,7 @@ class DoubleList:
 class LRUCache:
     def __init__(self, capacity: int):
         self.capacity = capacity  # LRU Cache的容量
-        self.map = {}  # 哈希表，用于快速定位key对应的节点
+        self.map = {}  # 哈希表，用于快速定位key对应的节点,补足了双向链表查找缓慢的特点!
         self.cache = DoubleList()  # 双向链表，用于维续节点的访问顺序
 
     def get(self, key: int) -> int:
@@ -69,12 +69,14 @@ class LRUCache:
     def put(self, key: int, value: int) -> None:
         new_item = Node(key, value)  # 新建一个节点
         if key in self.map:
-            self.cache.remove(self.map[key])  # 如果key已存在于LRU Cache中，则将对应节点移到链表头部
-            self.cache.addFirst(new_item)  # 将新节点添加到链表头部
+            self.cache.remove(self.map[key])  # 如果key已存在于LRU Cache中，则将对应节点删除,
+            self.cache.addFirst(new_item)  # 然后将key相同的新节点添加到链表头部 -> 进行更新
             self.map[key] = new_item  # 更新map中的key-value对应关系
         else:
             if self.capacity == self.cache.getSize():
-                last_node = self.cache.removeLast()  # 如果LRU Cache已满，则删除链表尾部的节点
+                last_node = (
+                    self.cache.removeLast()
+                )  # 如果LRU Cache已满，则用removeLast删除链表尾部的节点
                 self.map.pop(last_node.key)  # 删除map中对应的key-value对应关系
             self.cache.addFirst(new_item)  # 将新节点添加到链表头部
             self.map[key] = new_item  # 更新map中的key-value对应关系
