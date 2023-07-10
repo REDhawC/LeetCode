@@ -23,12 +23,13 @@ class NodeList:
         self.tail.prev = self.head
         self.size = 0
 
-    def addFirst(self, node):
-        self.head.next.prev = node
-        node.next = self.head.next
-        node.prev = self.head
-        self.head.next = node
-        self.size += 1
+    def addFirst(self, x):
+        """插入在 head 和 tail 之间, 总共需要梳理4个箭头!"""
+        x.next = self.head.next  # x的next指针指向头节点的下一个节点
+        x.prev = self.head  # x的prev指针指向头节点
+        self.head.next.prev = x  # 头节点的下一个节点的prev指针指向x
+        self.head.next = x  # 头节点的next指针指向x
+        self.size += 1  # 链表大小加1
 
     def removeMiddle(self, node):
         node.prev.next = node.next
@@ -50,10 +51,10 @@ class NodeList:
 
 
 class LRUCache:
-    def __init__(self, capacity):
-        self.map = {}
-        self.cache = NodeList()
-        self.capacity = capacity
+    def __init__(self, capacity: int):
+        self.capacity = capacity  # LRU Cache的容量
+        self.map = {}  # 哈希表，用于快速定位key对应的节点,补足了双向链表查找缓慢的特点!
+        self.cache = DoubleList()  # 双向链表，用于维续节点的访问顺序
 
     def get(self, key):
         print("get:", key)
@@ -70,15 +71,17 @@ class LRUCache:
         print("put:", key, val)
         node = Node(key, val)
         if key in self.map:
-            self.cache.removeMiddle(self.map[key])
-            self.cache.addFirst(node)
-            self.map[key] = node
+            self.cache.remove(self.map[key])  # 如果key已存在于LRU Cache中，则将对应节点删除,
+            self.cache.addFirst(new_item)  # 然后将key相同的新节点添加到链表头部 -> 进行更新
+            self.map[key] = new_item  # 更新map中的key-value对应关系
         else:
-            if self.cache.size == self.capacity:
-                lastNode = self.cache.removeLast()
-                self.map.pop(lastNode.key)
-            self.cache.addFirst(node)
-            self.map[key] = node
+            if self.capacity == self.cache.getSize():
+                last_node = (
+                    self.cache.removeLast()
+                )  # 如果LRU Cache已满，则用removeLast删除链表尾部的节点
+                self.map.pop(last_node.key)  # 删除map中对应的key-value对应关系
+            self.cache.addFirst(new_item)  # 将新节点添加到链表头部
+            self.map[key] = new_item  # 更新map中的key-value对应关系
 
 
 # Your LRUCache object will be instantiated and called as such:
