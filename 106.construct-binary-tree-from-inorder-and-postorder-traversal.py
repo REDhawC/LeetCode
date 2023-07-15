@@ -19,6 +19,7 @@ class Solution:
         self.hashmap = {}
 
     def buildTree(self, inorder, postorder):
+        # quickly use val to get -> index in INORDER
         for i in range(len(inorder)):
             self.hashmap[inorder[i]] = i
 
@@ -40,7 +41,7 @@ class Solution:
                 inorder_Index - 1,
                 postorder,
                 postStart,
-                postStart + leftSize - 1,
+                postStart + leftSize - 1,  # new POSTEND -> build new root
             )
 
             root.right = build(
@@ -49,14 +50,12 @@ class Solution:
                 inEnd,
                 postorder,
                 postStart + leftSize,
-                postEnd - 1,
+                postEnd - 1,  # new POSTEND -> build new root
             )
 
             return root
 
         return build(inorder, 0, len(inorder) - 1, postorder, 0, len(postorder) - 1)
-
-        # quickly use val to get -> index in INORDER
 
 
 # @lc code=end
