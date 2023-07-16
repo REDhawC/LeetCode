@@ -15,13 +15,11 @@ class TreeNode:
 
 
 class Solution:
-    # def __init__(self) -> None:
-    #     self.maxSum=-1001
     def maxPathSum(self, root):
         maxSum = float("-inf")
 
         def dfs(root):
-            nonlocal maxSum
+            nonlocal maxSum  # 用nonlocal比__init__省事一些
             if not root:
                 return 0
             #
