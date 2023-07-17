@@ -27,15 +27,35 @@ class Solution:
         if root.right:
             self.traverse(root.right)
 
-    def flatten(self, root):
-        self.traverse(root)
-        for i in range(len(self.preOrder) - 1):
-            self.preOrder[i].left = None
-            self.preOrder[i].right = self.preOrder[i + 1]
+    # 1. violent traverse
 
-        """
-        Do not return anything, modify root in-place instead.
-        """
+    # def flatten(self, root):
+    #     self.traverse(root)
+    #     for i in range(len(self.preOrder) - 1):
+    #         self.preOrder[i].left = None
+    #         self.preOrder[i].right = self.preOrder[i + 1]
+
+    # 2.logic
+
+    def flatten(self, root):
+        while root:
+            # pass when root has no left
+            if not root.left:
+                root = root.right
+            else:
+                pre = root.left
+                while pre.right:
+                    pre = pre.right
+                print(pre.val)
+                pre.right = root.right
+                root.right = root.left
+                root.left = None
+
+                root = root.right
+
+    """
+    Do not return anything, modify root in-place instead.
+    """
 
 
 # @lc code=end
