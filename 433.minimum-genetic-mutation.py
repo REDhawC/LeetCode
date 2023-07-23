@@ -8,18 +8,33 @@
 # @lc code=start
 class Solution:
     def minMutation(self, startGene: str, endGene: str, bank: list[str]) -> int:
+        import collections
+
         if endGene not in bank:
             return -1
 
-        def getDiffNums(gene1, gene2):
-            res = [0, []]
-            for i in range(len(gene1)):
-                if gene1[i] != gene2[i]:
-                    res[0] += 1
-                    res[1].append(i)
-            return res
-
-        print(getDiffNums(startGene, endGene))
+        bank_Set = set(bank)  # set-> O(1) searching; better than list!
+        queue = collections.deque()
+        visited = set()
+        queue.append([startGene, 0])
+        while queue:
+            node = queue.popleft()
+            step = node[1]
+            if node[0] == endGene:
+                print(node[0], step)
+                return step
+            for i in range(len(node[0])):
+                for char in ["A", "C", "G", "T"]:
+                    newNode = node[0][:i] + char + node[0][i + 1 :]
+                    if newNode == node[0]:
+                        continue
+                    if newNode not in bank_Set:
+                        continue
+                    if newNode not in visited:
+                        visited.add(newNode)
+                        print(newNode)
+                        queue.append([newNode, step + 1])
+        return -1
 
 
 # @lc code=end
