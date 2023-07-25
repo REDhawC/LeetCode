@@ -11,7 +11,7 @@ import collections
 class Node(object):
     def __init__(self):
         self.children = collections.defaultdict(Node)
-        self.isword = False
+        self.isWord = False
 
 
 class WordDictionary(object):
@@ -30,7 +30,7 @@ class WordDictionary(object):
         current = self.root
         for w in word:
             current = current.children[w]
-        current.isword = True
+        current.isWord = True
 
     def search(self, word):
         """
@@ -41,15 +41,17 @@ class WordDictionary(object):
         return self.match(word, 0, self.root)
 
     def match(self, word, index, root):
-        if root == None:
+        if not root:
             return False
         if index == len(word):
-            return root.isword
-        if word[index] != ".":
-            return root != None and self.match(
-                word, index + 1, root.children.get(word[index])
-            )
-        else:
+            return root.isWord
+        if word[index] != ".":  # normal case -> chars
+            if not root:
+                return False
+            else:
+                return self.match(word, index + 1, root.children.get(word[index]))
+
+        else:  # '.'
             for child in root.children.values():
                 if self.match(word, index + 1, child):
                     return True
@@ -95,7 +97,7 @@ class WordDictionary(object):
 
 
 # Your WordDictionary object will be instantiated and called as such:
-# obj = WordDictionary()
-# obj.addWord(word)
-# param_2 = obj.search(word)
+obj = WordDictionary()
+obj.addWord("bad")
+param_2 = obj.search("b..")
 # @lc code=end
