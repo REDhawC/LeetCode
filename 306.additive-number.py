@@ -17,22 +17,24 @@ class Solution:
 
         def backtracking(idx):
             nonlocal res
-            if idx == len(num):
-                if len(path) > 2:
-                    # print("test:", path)
-                    flag = 1
-                    for i in range(2, len(path)):
-                        num1, num2, num3 = (
-                            float(path[i - 2]),
-                            float(path[i - 1]),
-                            float(path[i]),
-                        )
-                        if num3 != num1 + num2:
-                            flag = 0
-                            break
-                    if flag:
-                        # print("pass:", path)
-                        res = True
+            # if idx == len(num):
+            # print(path)
+            if len(path) > 2:
+                # print("test:", path)
+                flag = 1
+                for i in range(2, len(path)):
+                    num1, num2, num3 = (
+                        float(path[i - 2]),
+                        float(path[i - 1]),
+                        float(path[i]),
+                    )
+                    if num3 != num1 + num2:
+                        flag = 0
+                        return
+
+                if flag and idx == len(num):
+                    # print("pass:", path)
+                    res = True
                     return
 
             for i in range(idx, len(num)):

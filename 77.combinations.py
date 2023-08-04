@@ -9,19 +9,48 @@
 class Solution:
     def combine(self, n: int, k: int) -> list[list[int]]:
         res = []
+        tempList = []
 
-        def dfs(tempList, minNum):
+        def dfs(minNum):
+            remainingNum = k - len(tempList)
+            if n + 1 - minNum < remainingNum:
+                # if remaining options cannot fulfill,
+                return
             if len(tempList) == k:
+                # having enough digits, stop iteration.
                 res.append(tempList.copy())
                 return
-            for i in range(minNum, n + 1):
+            for i in range(minNum, n + 1):  # decreasing
                 tempList.append(i)
-                dfs(tempList, i + 1)
+                # print(tempList)
+                dfs(i + 1)
                 tempList.pop()
 
-        dfs([], 1)
+        dfs(1)
 
         return res
+
+
+# class Solution:
+#     def combine(self, n: int, k: int) -> list[list[int]]:
+#         res = []
+#         tempList = []
+
+#         def dfs(maxNum):
+#             remainingNum = k - len(tempList)
+#             if maxNum < remainingNum:
+#                 return
+#             if len(tempList) == k:
+#                 res.append(tempList.copy())
+#                 return
+#             for i in range(maxNum, 0, -1):  # decreasing
+#                 tempList.append(i)
+#                 dfs(i - 1)
+#                 tempList.pop()
+
+#         dfs(n)
+
+#         return res
 
 
 # @lc code=end
