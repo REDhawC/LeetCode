@@ -11,17 +11,16 @@
 # your binary search skills need to be improved!
 class Solution:
     def findMin(self, nums: list[int]) -> int:
-        left = 0
+        left = -1
         right = len(nums) - 1
-        while left < right:
+        while left + 1 < right:
             mid = (left + right) // 2
             if nums[mid] < nums[-1]:
                 right = mid
-
             else:
-                left = mid + 1
+                left = mid
 
-        return nums[left]
+        return nums[right]
 
 
 # Solution.findMin(Solution, [4, 5, 6, 7, 0, 1, 2])
