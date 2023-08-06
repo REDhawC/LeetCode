@@ -8,17 +8,19 @@
 # @lc code=start
 
 
-# WRONG!!!!!!
+# your binary search skills need to be improved!
 class Solution:
     def findMin(self, nums: list[int]) -> int:
         left = 0
         right = len(nums) - 1
-        while left <= right:
+        while left < right:
             mid = (left + right) // 2
-            if nums[mid] > nums[left]:
-                left = mid + 1
+            if nums[mid] < nums[-1]:
+                right = mid
+
             else:
-                right = mid - 1
+                left = mid + 1
+
         return nums[left]
 
 
