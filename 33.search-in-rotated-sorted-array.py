@@ -36,11 +36,6 @@ class Solution:
                         return mid
                 else:  # target < firstNum
                     left = mid
-            # else:  # nums[mid] == firstNum
-            #     if nums[mid] == target:
-            #         return mid
-            #     else:
-            #         left = mid
 
         if left == len(nums):
             return -1
