@@ -9,6 +9,7 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
         res = 0
+        pathNums = [-1] * (n + 1)
 
         def backtracking(step, pathNum):
             nonlocal res
@@ -17,20 +18,26 @@ class Solution:
             if step == n:
                 res += 1
                 return 1
-            temp = pathNum
+
+            if pathNums[step] != -1:
+                res += pathNums[step]
+                return pathNums[step]
+
+            path1, path2 = 0, 0
             if step + 1 <= n:
-                pathNum += backtracking(step + 1, pathNum)
-                print(pathNum)
-                pathNum = temp
+                path1 = backtracking(step + 1, pathNum)
             if step + 2 <= n:
-                pathNum += backtracking(step + 2, pathNum)
-                print(pathNum)
+                path2 = backtracking(step + 2, pathNum)
+            pathNum = path1 + path2
+
+            pathNums[step] = pathNum
+            return pathNum
 
         backtracking(0, 0)
         return res
 
 
-Solution.climbStairs(Solution, 3)
+# Solution.climbStairs(Solution, 4)
 
 
 # @lc code=end
