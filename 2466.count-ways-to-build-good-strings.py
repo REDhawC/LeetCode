@@ -6,29 +6,22 @@
 
 
 # @lc code=start
-# ???? 怎么优化,会重复吗????
 class Solution:
     def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
-        # visited = set()
         res = 0
-        zeroStr = "0" * zero
-        oneStr = "1" * one
+        dpTable = [0] * (high + 1)
+        dpTable[0] = 1  # 技巧！DP中空字符串的情况为1
+        MOD = 10**9 + 7
+        for i in range(1, high + 1):
+            if i >= zero:
+                dpTable[i] = dpTable[i - zero] + dpTable[i]
+            if i >= one:
+                dpTable[i] = dpTable[i - one] + dpTable[i]
 
-        def backtracking(curStr):
-            nonlocal res
-            if len(curStr) > high:
-                return
-            if low <= len(curStr) < high:
-                res += 1
-            if len(curStr) == high:
-                res += 1
-                return
-            #
-            backtracking(curStr + zeroStr)
-            backtracking(curStr + oneStr)
+        for i in range(low, high + 1):
+            res += dpTable[i]
 
-        backtracking("")
-        return res
+        return res % MOD
 
 
 # @lc code=end
