@@ -6,62 +6,46 @@
 
 
 # @lc code=start
+class Solution:
+    def findTargetSumWays(self, nums: list[int], target: int) -> int:
+        newTarget = target + sum(nums)
+        if newTarget % 2 != 0 or newTarget < 0:
+            return 0
+        newTarget = newTarget // 2
+        length = len(nums)
+        dpTable = [[0] * (newTarget + 1) for _ in range(length + 1)]
+        dpTable[0][0] = 1
+        for i, val in enumerate(nums):
+            for c in range(newTarget + 1):
+                if val > c:
+                    dpTable[i + 1][c] = dpTable[i][c]
+                else:
+                    dpTable[i + 1][c] = dpTable[i][c] + dpTable[i][c - val]
+
+        return dpTable[length][newTarget]
+
+
 # class Solution:
 #     def findTargetSumWays(self, nums: list[int], target: int) -> int:
-#         from functools import lru_cache
+#         # from functools import lru_cache
+#         memo = {}
+#         length = len(nums) - 1
 
-#         numsSum = sum(nums)
-#         newTarget = numsSum + target
-#         if newTarget < 0 or (numsSum + target) % 2 != 0:
-#             return 0
-#         newTarget = newTarget // 2
-#         length = len(nums)
-
-#         @lru_cache(None)
-#         def dfs(idx, capacity):
+#         # @lru_cache(None)
+#         def DP(idx, curSum):
+#             if (idx, curSum) in memo:
+#                 return memo[(idx, curSum)]
 #             if idx < 0:
-#                 if capacity == 0:
+#                 if curSum == target:
 #                     return 1
 #                 else:
 #                     return 0
+#             positive = DP(idx - 1, curSum + nums[idx])
+#             negative = DP(idx - 1, curSum - nums[idx])
+#             memo[(idx, curSum)] = positive + negative
+#             return memo[(idx, curSum)]
 
-#             if capacity < nums[idx]:
-#                 return dfs(idx - 1, capacity)
-#             else:
-#                 return dfs(idx - 1, capacity) + dfs(idx - 1, capacity - nums[idx])
+#         return DP(length, 0)
 
-#         return dfs(length - 1, newTarget)
-
-
-class Solution:
-    def findTargetSumWays(self, nums: list[int], target: int) -> int:
-        memo = {}
-        length = len(nums) - 1
-        target = target + sum(nums)
-        if target % 2 != 0 or target < 0:
-            return 0
-        newTarget = target // 2
-
-        def dp(idx, capacity):
-            if (idx, capacity) in memo:
-                return memo[(idx, capacity)]
-            if idx < 0:
-                if capacity <= 0:
-                    return 1
-            else:
-                return 0
-            # if nums[idx] > capacity:
-            #     memo[(idx, capacity)] = dp(idx - 1, capacity)
-            #     return memo[(idx, capacity)]
-            # else:
-            memo[(idx, capacity)] = dp(idx - 1, capacity) + dp(
-                idx - 1, capacity - nums[idx]
-            )
-            return memo[(idx, capacity)]
-
-        return dp(length, newTarget)
-
-
-print(Solution().findTargetSumWays([1, 1, 1, 1, 1], 3))  # 输出结果
 
 # @lc code=end
